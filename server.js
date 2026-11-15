@@ -75,3 +75,17 @@ app.get('/api/admin', (req, res) => {
 app.get('/api/stats', (req, res) => {
   res.json({ requestsServed });
 });
+
+app.use(express.static(PUBLIC_DIR));
+
+app.use((req, res) => {
+  if (req.path.startsWith('/api')) {
+    res.status(404).json({ error: 'Not found' });
+  } else {
+    res.status(404).send('<h1>404</h1><p>Page not found.</p>');
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
